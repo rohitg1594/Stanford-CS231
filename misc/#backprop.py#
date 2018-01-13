@@ -1,0 +1,34 @@
+import numpy as np
+x = 3
+y = -4
+
+#forward pass
+sigy = 1/(1+np.exp(-y))
+num = x + sigy
+sigx = 1/(1+np.exp(-x))
+xpy = x + y
+xpysqr = xpy*xpy
+den = sigx + xpysqr
+invden = 1/den
+f = num*invden
+
+#backward pass
+dinvden = num
+dnum = invden
+
+dden = -1/(den*den)*dinvden
+
+dsigx = 1*dden
+dxpysqr = 1*dden
+
+dxpy = 2*xpy*dxpysqr
+
+dx = 1*dxpy
+dy = 1*dxpy
+
+dx += sigx*(1-sigx)*dsigx
+
+dx += 1*dnum
+dsigy = 1*dnum
+
+dy += sigy*(1-sigy)*dsigy
